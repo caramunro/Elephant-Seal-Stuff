@@ -1,0 +1,55 @@
+---
+title: "RERDDAP-DataPull"
+author: "Aaron Mamula"
+date: "5/19/2021"
+output: html_document
+---
+
+Here is some "throw-away" code to test getting bathymetry data from the ```rerddap``` package:
+
+
+```{r warning=F, message=F}
+rm(list=ls())
+library(rerddap)
+library(dplyr)
+library(ggplot2)
+```
+
+
+We can refer to the NOAA Coastwatch ERDDAP portal for some info on a couple bathymetry grids I've used before:
+
+* [NOAA Coastal Relief Model v.6: Southern California](https://coastwatch.pfeg.noaa.gov/erddap/griddap/usgsCeCrm6.html)
+* [NOAA Coastal Relief MOdel v.7: Northern California/Southern Oregon](https://coastwatch.pfeg.noaa.gov/erddap/griddap/usgsCeCrm7.html)
+
+```{r}
+q <- ed_search(query = "Topography NOAA Coastal Relief")
+```
+
+This isn't the most elegant way to do things but I found a data set I'm familiar with in the 8th position of the first list element of the object ```q```:
+
+Now we need to get the actual data. We can get the ```dataset_id``` for the data sets we want either from the object ```q``` or from the CoastWatch web portal.
+
+```{r}
+# it pays to use pretty small bounding boxes here if possible.
+
+# this is a little funky because the NOAA Topp for "Northern California/Southern Oregon" stops at 37. If we want Santa Cruz to HMB we 
+# need to pull from 2 different Topos
+
+# this is also a little unstable....it might be better to pull the .csv from the CoastWatch web portal...
+
+
+bathy.df1 <- griddap("usgsCeCrm6", 
+                      latitude =  c(36.5, 37),
+                      longitude = c(-124, -120))
+bathy.df1 <- bathy.df1[[2]]
+
+bathy.df2 <- griddap("usgsCeCrm7", 
+                      latitude =  c(37, 37.4),
+                      longitude = c(-125, -120))
+bathy.df2 <- bathy.df2[[2]]
+
+```
+
+
+
+
