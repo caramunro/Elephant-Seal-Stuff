@@ -27,10 +27,10 @@ q <- ed_search(query = "Topography NOAA Coastal Relief")
 
 This isn't the most elegant way to do things but I found a data set I'm familiar with in the 8th position of the first list element of the object ```q```:
 
-Now we need to get the actual data:
+Now we need to get the actual data. We can get the ```dataset_id``` for the data sets we want either from the object ```q``` or from the CoastWatch web portal.
 
 ```{r}
-# it pays to use pretty small bounding boxes here is possible.
+# it pays to use pretty small bounding boxes here if possible.
 
 # this is a little funky because the NOAA Topp for "Northern California/Southern Oregon" stops at 37. If we want Santa Cruz to HMB we 
 # need to pull from 2 different Topos
